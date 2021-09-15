@@ -11,7 +11,7 @@ public class Scrolltest
 {
 
 
- public Scrolltest()
+ public Scrolltest()throws Exception
          {
 	 	System.setProperty("webdriver.chrome.driver", "C:\\Users\\Jhunta\\eclipse\\selenium\\chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
@@ -19,7 +19,9 @@ public class Scrolltest
 		
             //to perform Scroll on application using Selenium
             JavascriptExecutor js = (JavascriptExecutor) driver;
-            js.executeScript("window.scrollBy(0,350)", "");
+            while(true) {
+            js.executeScript("window.scrollBy(0,100)", "");
+            Thread.sleep(1000);}
          }
- public static void mai(String args[]) {new Scrolltest();}
+ public static void main(String args[])throws Exception {new Scrolltest();}
 }
