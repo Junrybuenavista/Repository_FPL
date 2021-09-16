@@ -14,5 +14,7 @@
 	<classpathentry kind="lib" path="C:/Users/Jhunta/eclipse/Selenium/libs/okhttp-3.11.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jhunta/eclipse/Selenium/libs/okio-1.14.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jhunta/Downloads/jsoup-1.14.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jhunta/eclipse/activation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jhunta/eclipse/javax.mail-1.4.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
