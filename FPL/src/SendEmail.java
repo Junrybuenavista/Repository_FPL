@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Properties;
 import javax.activation.*;
 import javax.mail.*;
@@ -8,7 +9,7 @@ import javax.mail.internet.MimeMultipart;
 
 public class SendEmail {
 	
-public SendEmail() 
+public SendEmail() throws Exception
 {
 	 final String username = "buenavistajunry@gmail.com";
 	    final String password = "xidwgumwwowibzwt";
@@ -26,9 +27,8 @@ public SendEmail()
 	                    return new PasswordAuthentication(username, password);
 	                }
 	            });
-
+	    while(true) {
 	    try {
-
 	        Message message = new MimeMessage(session);
 	        message.setFrom(new InternetAddress("buenavistajunry@gmail.com"));
 	        message.setRecipients(Message.RecipientType.TO,
@@ -50,13 +50,17 @@ public SendEmail()
 	        message.setContent(multipart);
 
 	        System.out.println("Sending PDF to email:");
-
+	        
 	        Transport.send(message);
-
+	        
 	        System.out.println("PDF sent!");
-
-	    } catch (MessagingException e) {
-	        e.printStackTrace();
+	        break;
+		    } 
+		    catch (MessagingException e) {
+		        e.printStackTrace();
+		        System.out.println("Sending Mail waiting:");
+		        Thread.sleep(1000);
+		    }
 	    }
 	}
 	

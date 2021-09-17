@@ -30,14 +30,13 @@ public class Test {
 			Jscript = (JavascriptExecutor) driver;
 
 			driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
-			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 			Thread.sleep(3000);
 			
 			Monitor monitor=new Monitor();
 			monitor.start();
 			
-			//new SendEmail();
-			//driver.quit();
+			
 		}catch(NoSuchElementException e) {System.out.println("Page refresh");driver.navigate().refresh();}
 		catch(Exception ee) {ee.printStackTrace();}
 	}
@@ -62,18 +61,21 @@ public class Test {
 				//System.out.println("Account = "+account.getText());
 							
 					
-				onClickXpath("Click Account No.","//a[@class='account-number-link']");
+				onClickXpath("Click Account No.","//a[@class='account-number-link']",false);
 				onClickLink("Click Close","Close");
 				onClickLink("Click View Bill","VIEW BILL");	
-				onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']");
-			}catch(Exception ee) {System.out.println("Monitor exception");ee.printStackTrace();}
+				onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
+				
+				
+				
+			}catch(NoSuchElementException e) {System.out.println("Page refreshmonitor");driver.navigate().refresh();}
+			catch(Exception ee) {System.out.println("Monitor exception");ee.printStackTrace();}
 				
 			}
-			public void onClickXpath(String title,String input) throws Exception
+			public void onClickXpath(String title,String input,boolean forEmail) throws Exception
 			{
 				int timeouts = 0;
-				scroll=new ScrollPage();
-				scroll.start();
+				
 				while(true) {
 					try {
 						 if(timeouts == 0) 
@@ -81,19 +83,23 @@ public class Test {
 						 else
 							 System.out.println("Timeout "+timeouts);				 
 							driver.findElement(By.xpath(input)).click();
-						scroll.stop();	
-						System.out.println(title+" completes:");
+						
+							if(forEmail == true) {
+								new SendEmail();
+								driver.quit();
+							}
+							
+						System.out.println(title+" complete:");
 						break;
 					}catch(NoSuchElementException e) {System.out.println("Page refresh1");driver.navigate().refresh();}
-					catch(Exception ee) {Thread.sleep(2000);}
+					catch(Exception ee) {scrollDown();}
 				}
 			}
 			
 			public void onClickLink(String title,String input) throws Exception
 			{
 				int timeouts = 0;
-				scroll=new ScrollPage();
-				scroll.start();
+				
 				while(true) {
 					try {
 						 if(timeouts == 0) 
@@ -102,18 +108,17 @@ public class Test {
 							 System.out.println("Timeout "+timeouts);
 						 
 						 driver.findElement(By.linkText(input)).click();
-						scroll.stop();	
+						
 						System.out.println(title+" complete:");
 						break;
 					}catch(NoSuchElementException e) {System.out.println("Page refresh2");driver.navigate().refresh();}
-					 catch(Exception ee) {Thread.sleep(2000);}
+					 catch(Exception ee) {scrollDown();}
 				}
 			}
 			public void onClickId(String title,String input) throws Exception
 			{
 				int timeouts = 0;
-				scroll=new ScrollPage();
-				scroll.start();
+				
 				while(true) {
 					try {
 						 if(timeouts == 0) 
@@ -122,12 +127,15 @@ public class Test {
 							 System.out.println("Timeout "+timeouts);
 						 
 						 driver.findElement(By.id(input)).click();
-						scroll.stop();	
+						
 						System.out.println(title+" complete:");
 						break;
 					}catch(NoSuchElementException e) {System.out.println("Page refresh3");driver.navigate().refresh();}
-					catch(Exception ee) {Thread.sleep(2000);}
+					catch(Exception ee) {scrollDown();}
 				}
+			}
+			public void scrollDown() {
+				 Jscript.executeScript("window.scrollBy(0,100)", "");
 			}
 	}
 	
