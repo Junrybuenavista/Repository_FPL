@@ -20,8 +20,8 @@ public class Scrolltest
             //to perform Scroll on application using Selenium
             JavascriptExecutor js = (JavascriptExecutor) driver;
             while(true) {
-            js.executeScript("window.scrollBy(0,100)", "");
-            Thread.sleep(1000);}
+            js.executeScript("window.scrollBy(0,10)", "");
+            Thread.sleep(50);}
          }
  public static void main(String args[])throws Exception {new Scrolltest();}
 }
