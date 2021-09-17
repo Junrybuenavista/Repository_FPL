@@ -1,18 +1,14 @@
-import java.io.IOException;
-import java.time.Duration;
+
 import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 //import org.testng.annotations.Test;
 //xidwgumwwowibzwt
 public class Test {
@@ -35,6 +31,7 @@ public class Test {
 
 			driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
 			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+			Thread.sleep(3000);
 			
 			Monitor monitor=new Monitor();
 			monitor.start();
