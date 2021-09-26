@@ -16,6 +16,9 @@ public class Test {
 	WebDriver driver;
 	JavascriptExecutor Jscript;
 	ScrollPage scroll;
+	Statement stmt;
+	ResultSet rs;
+	
 	public Test(){
 		// TODO Auto-generated method stub
 		try {
@@ -48,23 +51,24 @@ public class Test {
 				//driver.findElement(By.xpath("//input[@id='core_view_form_ValidationTextBox_1']")).sendKeys("2019SandaPar");			
 				onClickId("Login","core_view_form_Button_0_label");
 									
-				driver.findElement(By.id("core_view_form_ValidationTextBox_4")).sendKeys("8694466163");
-				
-							
-				//WebElement name = driver.findElements(By.className("name")).get(2);
-				//System.out.println("Name = "+name.getText());			
-				//WebElement address = driver.findElements(By.className("address")).get(1);
-				//System.out.println("address = "+address.getText());		
-				//WebElement balance = driver.findElements(By.className("balance")).get(1);
-				//System.out.println("balance = "+balance.getText());			
-				//WebElement account = driver.findElements(By.xpath("//a[@class='account-number-link']")).get(0);
-				//System.out.println("Account = "+account.getText());
-							
+				rs=stmt.executeQuery("select * from fpl_accounts");
+				Date checkDate;
+				while(rs.next()) {
 					
-				onClickXpath("Click Account No.","//a[@class='account-number-link']",false);
-				onClickLink("Click Close","Close");
-				onClickLink("Click View Bill","VIEW BILL");	
-				onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
+					checkDate = rs.getDate(4); 
+					if(checkDate==null) {
+						driver.findElement(By.id("core_view_form_ValidationTextBox_4")).sendKeys(rs.getString(1));			
+						onClickXpath("Click Account No.","//a[@class='account-number-link']",false);
+						
+					}
+					
+				}
+				
+				
+				
+				//onClickLink("Click Close","Close");
+				//onClickLink("Click View Bill","VIEW BILL");	
+				//onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
 				
 				
 				
@@ -142,16 +146,10 @@ public class Test {
 		try{  
 			Class.forName("com.mysql.jdbc.Driver");  
 			Connection con=DriverManager.getConnection(  
-			"jdbc:mysql://localhost:3306/fpldata","root","");  
-			//here sonoo is database name, root is username and password 
+			"jdbc:mysql://localhost:3306/fpldata","root","");  	
+			stmt=con.createStatement();
 			
-			Statement stmt=con.createStatement();
-			ResultSet rs=stmt.executeQuery("select * from fpl_accounts"); 
-			
-			while(rs.next())  
-				System.out.println(rs.getDate(4));  
-			con.close();  
-		}	catch(Exception e){ e.printStackTrace();}  
+		   }catch(Exception e){ e.printStackTrace();}  
 	}
 	
 	class ScrollPage extends Thread {

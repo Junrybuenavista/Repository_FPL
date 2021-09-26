@@ -1,0 +1,8 @@
+//WebElement name = driver.findElements(By.className("name")).get(2);
+				//System.out.println("Name = "+name.getText());			
+				//WebElement address = driver.findElements(By.className("address")).get(1);
+				//System.out.println("address = "+address.getText());		
+				//WebElement balance = driver.findElements(By.className("balance")).get(1);
+				//System.out.println("balance = "+balance.getText());			
+				//WebElement account = driver.findElements(By.xpath("//a[@class='account-number-link']")).get(0);
+				//System.out.println("Account = "+account.getText());	
