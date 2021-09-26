@@ -1,4 +1,5 @@
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.sql.*; 
@@ -18,9 +19,13 @@ public class Test {
 	ScrollPage scroll;
 	Statement stmt;
 	ResultSet rs;
+	Statement stmt2;
+	ResultSet rs2;
 	
 	public Test(){
-		// TODO Auto-generated method stub
+		
+		
+		setDataBaseConnection();
 		try {
 			System.setProperty("webdriver.chrome.driver", "C:\\Users\\Jhunta\\eclipse\\selenium\\chromedriver.exe");
 		
@@ -53,13 +58,20 @@ public class Test {
 									
 				rs=stmt.executeQuery("select * from fpl_accounts");
 				Date checkDate;
+				String account_No;
 				while(rs.next()) {
 					
-					checkDate = rs.getDate(4); 
+					checkDate = rs.getDate(4);
+					account_No = rs.getString(1);
+					System.out.println(account_No);
 					if(checkDate==null) {
-						driver.findElement(By.id("core_view_form_ValidationTextBox_4")).sendKeys(rs.getString(1));			
+						System.out.println(account_No);
+						driver.findElement(By.id("core_view_form_ValidationTextBox_4")).sendKeys(account_No);			
 						onClickXpath("Click Account No.","//a[@class='account-number-link']",false);
-						
+						System.out.println("updating");
+						stmt2.execute("UPDATE fpl_accounts SET Update_Date = '2008-11-12' where account_no ='"+account_No+"'");
+						System.out.println(account_No+" updated");
+						driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
 					}
 					
 				}
@@ -148,6 +160,7 @@ public class Test {
 			Connection con=DriverManager.getConnection(  
 			"jdbc:mysql://localhost:3306/fpldata","root","");  	
 			stmt=con.createStatement();
+			stmt2=con.createStatement();
 			
 		   }catch(Exception e){ e.printStackTrace();}  
 	}
