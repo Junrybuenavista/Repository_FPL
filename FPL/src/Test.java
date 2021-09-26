@@ -1,7 +1,7 @@
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-
+import java.sql.*; 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -138,7 +138,21 @@ public class Test {
 				 Jscript.executeScript("window.scrollBy(0,100)", "");
 			}
 	}
-	
+	public void setDataBaseConnection() {
+		try{  
+			Class.forName("com.mysql.jdbc.Driver");  
+			Connection con=DriverManager.getConnection(  
+			"jdbc:mysql://localhost:3306/fpldata","root","");  
+			//here sonoo is database name, root is username and password 
+			
+			Statement stmt=con.createStatement();
+			ResultSet rs=stmt.executeQuery("select * from fpl_accounts"); 
+			
+			while(rs.next())  
+				System.out.println(rs.getDate(4));  
+			con.close();  
+		}	catch(Exception e){ e.printStackTrace();}  
+	}
 	
 	class ScrollPage extends Thread {
 		public void run() {
@@ -151,5 +165,6 @@ public class Test {
 		}
 		
 	}
+	
 	public static void main(String args[]) {new Test();}
 }
