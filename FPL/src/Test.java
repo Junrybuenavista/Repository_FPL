@@ -67,10 +67,11 @@ public class Test {
 					
 					checkDate = rs.getDate(4);
 					account_No = rs.getString(1);
-					System.out.println(account_No);
 					
 						System.out.println(account_No);
-						driver.findElement(By.id("core_view_form_ValidationTextBox_4")).sendKeys(account_No);			
+						//driver.findElement(By.id("core_view_form_ValidationTextBox_4")).sendKeys(account_No);
+						
+						typeAccount("Sending Key Account Textfield",account_No);
 						onClickXpath("Click Account No.","//a[@class='account-number-link']",false);
 						System.out.println("updating");
 						stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");
@@ -91,6 +92,26 @@ public class Test {
 			catch(Exception ee) {System.out.println("Monitor exception");ee.printStackTrace();}
 				
 			}
+	
+			public void typeAccount(String title,String input) throws Exception
+			{
+				int timeouts = 0;
+				
+				while(true) {
+					try {
+						 if(timeouts == 0) 
+							System.out.println("Starting "+title);
+						 else
+							 System.out.println("Timeout "+timeouts);				 
+						 	 driver.findElement(By.id("core_view_form_ValidationTextBox_4")).sendKeys(input);
+							
+						System.out.println(title+" complete:");
+						break;
+					}catch(NoSuchElementException e) {System.out.println("Page refresh1");driver.navigate().refresh();}
+					catch(Exception ee) {scrollDown();}
+				}
+			}
+			
 			public void onClickXpath(String title,String input,boolean forEmail) throws Exception
 			{
 				int timeouts = 0;

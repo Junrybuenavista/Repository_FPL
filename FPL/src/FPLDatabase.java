@@ -25,7 +25,7 @@ public class FPLDatabase{
 				System.out.println(rs.getString(1)); 
 			
 			
-			//stmt.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='348868589'");
+			stmt.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='348868589'");
 			
 			con.close();  
 		}	catch(Exception e){ e.printStackTrace();}  
