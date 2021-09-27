@@ -107,7 +107,7 @@ public class Test {
 							
 						System.out.println(title+" complete:");
 						break;
-					}catch(NoSuchElementException e) {System.out.println("Page refresh1");driver.navigate().refresh();}
+					}catch(NoSuchElementException e) {System.out.println("Page refresh4");driver.navigate().refresh();}
 					catch(Exception ee) {scrollDown();}
 				}
 			}
