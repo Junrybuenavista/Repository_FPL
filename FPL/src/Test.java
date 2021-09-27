@@ -2,7 +2,9 @@
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-import java.sql.*; 
+import java.sql.*;
+import java.text.SimpleDateFormat;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -21,11 +23,12 @@ public class Test {
 	ResultSet rs;
 	Statement stmt2;
 	ResultSet rs2;
-	
+	SimpleDateFormat dateFormat;
 	public Test(){
 		
 		
 		setDataBaseConnection();
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			System.setProperty("webdriver.chrome.driver", "C:\\Users\\Jhunta\\eclipse\\selenium\\chromedriver.exe");
 		
@@ -51,12 +54,13 @@ public class Test {
 	class Monitor extends Thread
 	{		public void run() {
 			try {
+				
 				driver.findElement(By.id("core_view_form_ValidationTextBox_0")).sendKeys("bookkeeper@nbvresorts.com");
 				driver.findElement(By.id("core_view_form_ValidationTextBox_1")).sendKeys("2019SandaPar");
 				//driver.findElement(By.xpath("//input[@id='core_view_form_ValidationTextBox_1']")).sendKeys("2019SandaPar");			
 				onClickId("Login","core_view_form_Button_0_label");
 									
-				rs=stmt.executeQuery("select * from fpl_accounts");
+				rs=stmt.executeQuery("select * from fpl_accounts where Update_Date IS null OR NOT Update_Date = CURDATE()");
 				Date checkDate;
 				String account_No;
 				while(rs.next()) {
@@ -64,16 +68,15 @@ public class Test {
 					checkDate = rs.getDate(4);
 					account_No = rs.getString(1);
 					System.out.println(account_No);
-					if(checkDate==null) {
+					
 						System.out.println(account_No);
 						driver.findElement(By.id("core_view_form_ValidationTextBox_4")).sendKeys(account_No);			
 						onClickXpath("Click Account No.","//a[@class='account-number-link']",false);
 						System.out.println("updating");
-						stmt2.execute("UPDATE fpl_accounts SET Update_Date = '2008-11-12' where account_no ='"+account_No+"'");
+						stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");
 						System.out.println(account_No+" updated");
 						driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
-					}
-					
+										
 				}
 				
 				
