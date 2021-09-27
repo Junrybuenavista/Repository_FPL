@@ -24,6 +24,8 @@ public class Test {
 	Statement stmt2;
 	ResultSet rs2;
 	SimpleDateFormat dateFormat;
+	boolean closed=false;
+	
 	public Test(){
 		
 		
@@ -31,6 +33,7 @@ public class Test {
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			System.setProperty("webdriver.chrome.driver", "C:\\Users\\Jhunta\\eclipse\\selenium\\chromedriver.exe");
+			
 		
 			HashMap<String,Object> chromePrefs = new HashMap<String, Object>();
 			chromePrefs.put("plugins.always_open_pdf_externally", true);
@@ -39,7 +42,10 @@ public class Test {
 			driver = new ChromeDriver(options);
 			
 			Jscript = (JavascriptExecutor) driver;
-
+			//driver.get("http://localhost/GDrive/FPLServer.php?insert_file");
+			//Thread.sleep(1000000);
+			
+			
 			driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
 			driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 			Thread.sleep(3000);
@@ -68,23 +74,27 @@ public class Test {
 					checkDate = rs.getDate(4);
 					account_No = rs.getString(1);
 					
-						System.out.println(account_No);
+						System.out.println("Updating account: "+account_No);
 						//driver.findElement(By.id("core_view_form_ValidationTextBox_4")).sendKeys(account_No);
 						
 						typeAccount("Sending Key Account Textfield",account_No);
-						onClickXpath("Click Account No.","//a[@class='account-number-link']",false);
-						System.out.println("updating");
+						onClickXpath("Click Account No.","//a[@class='account-number-link']",false);					
+						
+						if(!closed) {onClickLink("Click Close","Close");closed=true;}
+						
+						onClickLink("Click View Bill","VIEW BILL");	
+						onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
+						
 						stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");
 						System.out.println(account_No+" updated");
+						
 						driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
 										
 				}
 				
 				
 				
-				//onClickLink("Click Close","Close");
-				//onClickLink("Click View Bill","VIEW BILL");	
-				//onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
+				
 				
 				
 				
@@ -125,13 +135,14 @@ public class Test {
 							driver.findElement(By.xpath(input)).click();
 						
 							if(forEmail == true) {
-								new SendEmail();
-								driver.quit();
+								//new SendEmail();
 							}
 							
 						System.out.println(title+" complete:");
 						break;
-					}catch(NoSuchElementException e) {System.out.println("Page refresh1");driver.navigate().refresh();}
+					}catch(NoSuchElementException e) {System.out.println("Page refresh1");driver.navigate().refresh();
+					
+					}
 					catch(Exception ee) {scrollDown();}
 				}
 			}
