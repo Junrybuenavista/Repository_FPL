@@ -25,7 +25,7 @@ public class FPLDatabase{
 			
 			while(rs.next())  
 				System.out.println(rs.getString(1));
-			
+			SimpleDateFormat dateFormat2 = new SimpleDateFormat("MM/dd/yyyy");
 			
 			rs=stmt.executeQuery("select * from fpl_accounts where Update_Date IS null OR NOT Update_Date = CURDATE()"); 
 			
@@ -36,10 +36,12 @@ public class FPLDatabase{
 			
 				File f = new File("C:\\FPL_Downloads\\Document.pdf");
 				if(f.exists()) System.out.println("file exist");
+				System.out.println();
 				
-				File file2 = new File("C:\\FPL_Downloads\\Documentnewname.pdf");
+				f.renameTo(new File("C:\\FPL_Downloads\\"+dateFormat.format(new Date())+"_123.pdf"));
+				//File file2 = new File("C:\\FPL_Downloads\\Documentnewname.pdf");
 				
-				f.renameTo(file2);
+				//f.renameTo(file2);
 	
 			
 			      

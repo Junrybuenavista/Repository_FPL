@@ -25,7 +25,7 @@ public class Test {
 	ResultSet rs;
 	Statement stmt2;
 	ResultSet rs2;
-	SimpleDateFormat dateFormat;
+	SimpleDateFormat dateFormat,dateFormat2;
 	boolean closed=false;
 	File f;
 	public Test(){
@@ -33,10 +33,11 @@ public class Test {
 		
 		setDataBaseConnection();
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat2 = new SimpleDateFormat("MM/dd/yyyy");
 		f = new File("C:\\FPL_Downloads\\Document.pdf");
 		try {
 			System.setProperty("webdriver.chrome.driver", "C:\\Users\\Jhunta\\eclipse\\selenium\\chromedriver.exe");
-			
+		
 		
 			HashMap<String,Object> chromePrefs = new HashMap<String, Object>();
 			chromePrefs.put("plugins.always_open_pdf_externally", true);
@@ -58,7 +59,7 @@ public class Test {
 			
 			
 			driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			Thread.sleep(3000);
 			
 			Monitor monitor=new Monitor();
@@ -97,16 +98,11 @@ public class Test {
 											}
 						
 						onClickLink("Click View Bill","VIEW BILL");
-								
-								while(true){
+						
+						Download DL = new Download(account_No);
+						DL.start();
+						onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
 									
-									if(!f.exists()) {
-											onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);											
-											Thread.sleep(2000);
-									}else {f.renameTo(new File("C:\\FPL_Downloads\\"+account_No+".pdf"));break;}
-								}
-								
-		
 								String oldTab = driver.getWindowHandle();
 								ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
 							    //newTab.remove(oldTab);
@@ -114,9 +110,10 @@ public class Test {
 							    driver.switchTo().window(newTab.get(0));
 								
 								
-						//stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");						
+						//stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");
+						DL.stop();
 						System.out.println(account_No+" updated");
-						//	driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
+						driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
 										
 				}
 				
@@ -234,6 +231,23 @@ public class Test {
 			}catch(Exception ee) {ee.printStackTrace();}
 		}
 		
+	}
+	class Download extends Thread {
+		String acc_no;
+		public Download(String acc_no) {
+			this.acc_no=acc_no;
+		}
+		public void run() {
+			try {
+				while(true){
+					System.out.println("Download thread waiting");
+					Thread.sleep(1000);
+					if(!f.exists()) {								
+					}else {f.renameTo(new File("C:\\FPL_Downloads\\"+dateFormat.format(new Date())+"_"+acc_no+".pdf"));System.out.println("Download thread complete");break;}
+					
+				}
+			}catch(Exception ee) {ee.printStackTrace();}
+		}		
 	}
 	
 	public static void main(String args[]) {new Test();}
