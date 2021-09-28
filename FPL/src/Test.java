@@ -27,12 +27,13 @@ public class Test {
 	ResultSet rs2;
 	SimpleDateFormat dateFormat;
 	boolean closed=false;
-	
+	File f;
 	public Test(){
 		
 		
 		setDataBaseConnection();
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		f = new File("C:\\FPL_Downloads\\Document.pdf");
 		try {
 			System.setProperty("webdriver.chrome.driver", "C:\\Users\\Jhunta\\eclipse\\selenium\\chromedriver.exe");
 			
@@ -96,12 +97,18 @@ public class Test {
 											}
 						
 						onClickLink("Click View Bill","VIEW BILL");
-						
 								
-								onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
+								while(true){
+									
+									if(!f.exists()) {
+											System.out.println("File exist");
+											onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);											
+											f.renameTo(new File(account_No));
+											break;
+									}
+								}
 								
-								
-								
+		
 								String oldTab = driver.getWindowHandle();
 								ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
 							    //newTab.remove(oldTab);
@@ -109,7 +116,6 @@ public class Test {
 							    driver.switchTo().window(newTab.get(0));
 								
 								
-						
 						//stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");						
 						System.out.println(account_No+" updated");
 						//	driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
