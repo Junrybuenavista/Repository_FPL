@@ -37,9 +37,14 @@ public class Test {
 		
 			HashMap<String,Object> chromePrefs = new HashMap<String, Object>();
 			chromePrefs.put("plugins.always_open_pdf_externally", true);
+			chromePrefs.put("download.default_directory", "C:\\Users\\FPL_Downloads");
 			ChromeOptions options = new ChromeOptions();
 			options.setExperimentalOption("prefs", chromePrefs);
 			driver = new ChromeDriver(options);
+						
+		    driver.manage().deleteAllCookies();
+			driver.get("chrome://settings/clearBrowserData");
+			
 			
 			Jscript = (JavascriptExecutor) driver;
 			//driver.get("http://localhost/GDrive/FPLServer.php?insert_file");
@@ -47,7 +52,7 @@ public class Test {
 			
 			
 			driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
-			driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			Thread.sleep(3000);
 			
 			Monitor monitor=new Monitor();
@@ -80,23 +85,23 @@ public class Test {
 						typeAccount("Sending Key Account Textfield",account_No);
 						onClickXpath("Click Account No.","//a[@class='account-number-link']",false);					
 						
-						if(!closed) {onClickLink("Click Close","Close");closed=true;}
+								if(!closed) {
+												//onClickLink("Click Close","Close");
+												closed=true;
+											}
 						
-						onClickLink("Click View Bill","VIEW BILL");	
-						onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
+						onClickLink("Click View Bill","VIEW BILL");
 						
-						stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");
+								onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
+								Thread.sleep(5000);
+						
+						//stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");						
 						System.out.println(account_No+" updated");
-						
 						driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
 										
 				}
 				
-				
-				
-				
-				
-				
+		
 				
 			}catch(NoSuchElementException e) {System.out.println("Page refreshmonitor");driver.navigate().refresh();}
 			catch(Exception ee) {System.out.println("Monitor exception");ee.printStackTrace();}
