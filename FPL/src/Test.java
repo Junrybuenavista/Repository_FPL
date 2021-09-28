@@ -1,7 +1,9 @@
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+import java.io.File;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
@@ -37,7 +39,10 @@ public class Test {
 		
 			HashMap<String,Object> chromePrefs = new HashMap<String, Object>();
 			chromePrefs.put("plugins.always_open_pdf_externally", true);
-			chromePrefs.put("download.default_directory", "C:\\Users\\FPL_Downloads");
+			chromePrefs.put("download.default_directory", "C:"+File.separator+"FPL_Downloads");
+					
+			
+			
 			ChromeOptions options = new ChromeOptions();
 			options.setExperimentalOption("prefs", chromePrefs);
 			driver = new ChromeDriver(options);
@@ -92,12 +97,22 @@ public class Test {
 						
 						onClickLink("Click View Bill","VIEW BILL");
 						
+								
 								onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
-								Thread.sleep(5000);
+								
+								
+								
+								String oldTab = driver.getWindowHandle();
+								ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
+							    //newTab.remove(oldTab);
+							    // change focus to new tab
+							    driver.switchTo().window(newTab.get(0));
+								
+								
 						
 						//stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");						
 						System.out.println(account_No+" updated");
-						driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
+						//	driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
 										
 				}
 				
