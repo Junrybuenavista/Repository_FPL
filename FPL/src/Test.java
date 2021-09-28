@@ -101,11 +101,9 @@ public class Test {
 								while(true){
 									
 									if(!f.exists()) {
-											System.out.println("File exist");
 											onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);											
-											f.renameTo(new File(account_No));
-											break;
-									}
+											Thread.sleep(2000);
+									}else {f.renameTo(new File("C:\\FPL_Downloads\\"+account_No+".pdf"));break;}
 								}
 								
 		

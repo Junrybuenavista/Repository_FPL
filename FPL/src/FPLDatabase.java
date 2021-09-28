@@ -1,8 +1,13 @@
 
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;  
+import java.util.Date;
+
+import com.google.common.io.Files;  
 public class FPLDatabase{
 	public FPLDatabase() {
 		try{  
@@ -13,6 +18,9 @@ public class FPLDatabase{
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Statement stmt=con.createStatement();
 			
+			
+			
+
 			ResultSet rs=stmt.executeQuery("SELECT CAST( CURDATE() AS Date )"); 
 			
 			while(rs.next())  
@@ -25,7 +33,18 @@ public class FPLDatabase{
 				System.out.println(rs.getString(1)); 
 			
 			
-			stmt.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='348868589'");
+			
+				File f = new File("C:\\FPL_Downloads\\Document.pdf");
+				if(f.exists()) System.out.println("file exist");
+				
+				File file2 = new File("C:\\FPL_Downloads\\Documentnewname.pdf");
+				
+				f.renameTo(file2);
+	
+			
+			      
+			
+			//stmt.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='348868589'");
 			
 			con.close();  
 		}	catch(Exception e){ e.printStackTrace();}  
