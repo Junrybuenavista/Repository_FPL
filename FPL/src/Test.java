@@ -81,6 +81,7 @@ public class Test {
 				rs=stmt.executeQuery("select * from fpl_accounts where Update_Date IS null OR NOT Update_Date = CURDATE()");
 				Date checkDate;
 				String account_No;
+				Download DL = new Download();
 				while(rs.next()) {
 					
 					checkDate = rs.getDate(4);
@@ -93,29 +94,30 @@ public class Test {
 						onClickXpath("Click Account No.","//a[@class='account-number-link']",false);					
 						
 								if(!closed) {
-												//onClickLink("Click Close","Close");
+												onClickLink("Click Close","Close");
 												closed=true;
 											}
 						
 						onClickLink("Click View Bill","VIEW BILL");
 						
-						Download DL = new Download(account_No);
+						DL.setAccNo(account_No);
 						DL.start();
 						onClickXpath("Click Download","//span[@id='core_view_form_Button_2_label']",true);
-									
+						Thread.sleep(4000);			
 								String oldTab = driver.getWindowHandle();
 								ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
-							    //newTab.remove(oldTab);
-							    // change focus to new tab
+							    		//newTab.remove(oldTab);
+							    		// change focus to new tab
 							    driver.switchTo().window(newTab.get(0));
 								
 								
 						//stmt2.execute("UPDATE fpl_accounts SET Update_Date = '"+dateFormat.format(new Date())+"' where account_no ='"+account_No+"'");
-						DL.stop();
+						
 						System.out.println(account_No+" updated");
 						driver.get("https://www.fpl.com/my-account/multi-dashboard.html");
 										
 				}
+				DL.stop();
 				
 		
 				
@@ -234,16 +236,24 @@ public class Test {
 	}
 	class Download extends Thread {
 		String acc_no;
-		public Download(String acc_no) {
-			this.acc_no=acc_no;
+		public Download() {
+			
+		}
+		public void setAccNo(String in) {
+			acc_no = in;
 		}
 		public void run() {
 			try {
 				while(true){
 					System.out.println("Download thread waiting");
-					Thread.sleep(1000);
-					if(!f.exists()) {								
-					}else {f.renameTo(new File("C:\\FPL_Downloads\\"+dateFormat.format(new Date())+"_"+acc_no+".pdf"));System.out.println("Download thread complete");break;}
+					Thread.sleep(500);
+					
+					if(!f.exists()) {
+						
+					}else {
+						f.renameTo(new File("C:\\FPL_Downloads\\"+dateFormat.format(new Date())+"_"+acc_no+".pdf"));
+						System.out.println("Download thread complete");break;
+					}
 					
 				}
 			}catch(Exception ee) {ee.printStackTrace();}

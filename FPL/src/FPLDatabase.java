@@ -40,7 +40,7 @@ public class FPLDatabase{
 				
 				f.renameTo(new File("C:\\FPL_Downloads\\"+dateFormat.format(new Date())+"_123.pdf"));
 				//File file2 = new File("C:\\FPL_Downloads\\Documentnewname.pdf");
-				
+				f.renameTo(new File("C:\\FPL_Downloads\\"+dateFormat.format(new Date())+"_123.pdf"));System.out.println("Download thread complete");
 				//f.renameTo(file2);
 	
 			
