@@ -31,8 +31,8 @@ public class JsoupLoginExample {
             Map<String, String> mapParams = new HashMap<String, String>();
             mapParams.put("FormName", "existing");
             mapParams.put("seclogin", "on");
-            mapParams.put("login", "junrybuenavista@rediffmail.com");
-            mapParams.put("passwd", "Killingme1(");
+            mapParams.put("login", "ffffff");
+            mapParams.put("passwd", "ffffffff");
             mapParams.put("remember", "1");
             mapParams.put("proceed", "Go");
             
