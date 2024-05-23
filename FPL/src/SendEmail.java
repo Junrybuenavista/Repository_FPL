@@ -11,8 +11,8 @@ public class SendEmail {
 	
 public SendEmail() throws Exception
 {
-	 final String username = "buenavistajunry@gmail.com";
-	    final String password = "xidwgumwwowibzwt";
+	 final String username = "fdsffsdf";
+	    final String password = "fdsfsdft";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.ssl.protocols", "TLSv1.2");
